@@ -40,6 +40,14 @@ async def create_book(book: Book):
         status_code=status.HTTP_201_CREATED, content=book.model_dump()
     )
 
+@router.get("/{book_id}")
+async def get_book(book_id: int):
+    """Retrieve a book by its ID."""
+    book = next((book for book in books_db if book["id"] == book_id), None)
+    if book:
+        return book
+    raise HTTPException(status_code=404, detail="Book not found")
+
 
 @router.get(
     "/", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK
