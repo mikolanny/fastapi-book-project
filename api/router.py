@@ -4,4 +4,4 @@ from api.routes import books
 
 api_router = APIRouter()
 api_router.include_router(books.router, prefix="/books", tags=["books"])
-app.include_router(book_router, prefix="/api/v1")
+#api_router.include_router(book_router, prefix="/api/v1")
