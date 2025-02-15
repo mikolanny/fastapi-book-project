@@ -79,15 +79,15 @@ async def delete_book(book_id: int = Depends(validate_book_id)):
 
 # Route to get a single book by ID
 
-@router.get("/books/{book_id}", response_model=Book, status_code=status.HTTP_200_OK)
-async def get_book_by_id(book_id: int) -> Book:
-    book = db.books.get(book_id)
-    if book is None:
+
+@router.get(
+    "/{book_id}", response_model=Book, status_code=status.HTTP_200_OK
+)
+async def get_book(book_id: int) -> Book:
+    book = db.get_book(book_id)
+    if not book:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Book not found",
+            detail="Book not found"
         )
-    return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=book.model_dump(),
-    )
+    return book
