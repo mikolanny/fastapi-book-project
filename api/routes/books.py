@@ -69,7 +69,7 @@ async def delete_book(book_id: int = Depends(validate_book_id)):
 
 # Route to get a single book by ID
 @router.get(
-    "/{book_id}", response_model=Book, status_code=status.HTTP_200_OK
+    "/books/{book_id}", response_model=Book, status_code=status.HTTP_200_OK
 )
 async def get_book(book_id: int) -> Book:
     book = db.get_book(book_id)
