@@ -33,16 +33,12 @@ db.books = {
 }
 
 # Custom path converter to validate book ID
-
-
 def validate_book_id(book_id: str = Path(...)):
     if not book_id.isdigit():
         raise HTTPException(status_code=404, detail="Book not found")
     return int(book_id)
 
 # Route to create a new book
-
-
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_book(book: Book):
     db.add_book(book)
@@ -51,8 +47,6 @@ async def create_book(book: Book):
     )
 
 # Route to get all books
-
-
 @router.get(
     "/", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK
 )
@@ -60,8 +54,6 @@ async def get_books() -> OrderedDict[int, Book]:
     return db.get_books()
 
 # Route to update an existing book by ID
-
-
 @router.put("/{book_id}", response_model=Book, status_code=status.HTTP_200_OK)
 async def update_book(book: Book, book_id: int = Depends(validate_book_id)) -> Book:
     return JSONResponse(
@@ -70,16 +62,12 @@ async def update_book(book: Book, book_id: int = Depends(validate_book_id)) -> B
     )
 
 # Route to delete a book by ID
-
-
 @router.delete("/{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book(book_id: int = Depends(validate_book_id)):
     db.delete_book(book_id)
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
 
 # Route to get a single book by ID
-
-
 @router.get(
     "/{book_id}", response_model=Book, status_code=status.HTTP_200_OK
 )
